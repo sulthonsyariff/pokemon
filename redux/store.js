@@ -4,16 +4,16 @@ import { combineReducers } from 'redux';
 import { persistReducer } from 'redux-persist';
 import thunk from 'redux-thunk';
 
-import currencyReducer from './currencySlice';
+import pokemonReducer from './pokemonSlice';
 
 const reducers = combineReducers({
-  currency: currencyReducer,
+  pokemon: pokemonReducer,
 });
 
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['currency'], // only currency will be persisted
+  whitelist: ['pokemon'], // only pokemon will be persisted
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);
