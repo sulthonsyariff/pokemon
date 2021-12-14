@@ -6,18 +6,23 @@ import BaseStats from '../../components/detail/BaseStats';
 import About from '../../components/detail/About';
 import Evolution from '../../components/detail/Evolution';
 
-const DetailPokemon = ({ pokemon, evolution }) => {
-  console.log('pokemon', pokemon);
-  console.log('evelotion', evolution);
-
+const DetailPokemon = ({ pokemon }) => {
+  const [evolution, setEvolution] = useState(null);
   const [bgColorType, setBgColorType] = useState('');
+  const evolutionChainId = Math.ceil(pokemon.id / 3);
+
+  const fetchEvolution = async () => {
+    const res = await getEvolutionPokemon(evolutionChainId);
+    setEvolution(res);
+  }
 
   useEffect(() => {
+    fetchEvolution();
     setBgColorType(getColorByPokemonType(pokemon.types[0].type.name));
   }, []);
 
   return (
-    <div className="max-w-5xl mx-auto min-h-screen bg-white">
+    <div className="mx-auto min-h-screen bg-white">
       {/* header */}
       <header className="p-4 pb-20 text-center" style={{backgroundColor: bgColorType}}>
         {/* <div>Back</div> */}
@@ -43,9 +48,9 @@ const DetailPokemon = ({ pokemon, evolution }) => {
         </div>
       </header>
       <section>
-        <div className='w-11/12 bg-white shadow mx-auto -mt-12 rounded p-4'>
+        <div className='w-11/12 mx-auto -mt-12'>
           <div className='flex flex-col sm:flex-row sm:gap-5'>
-            <div className='w-full sm:w-1/2'>
+            <div className='w-full sm:w-1/2 bg-white p-4 border rounded'>
               <About
                 height={pokemon.height}
                 weight={pokemon.weight}
@@ -53,13 +58,13 @@ const DetailPokemon = ({ pokemon, evolution }) => {
                 types={pokemon.types}
               />
             </div>
-            <div className='w-full sm:w-1/2 mt-4 sm:mt-0'>
+            <div className='w-full sm:w-1/2 mt-4 sm:mt-0 bg-white p-4 border rounded'>
               <BaseStats
-                stats={pokemon.stats} 
+                stats={pokemon.stats}
               />
             </div>
           </div>
-          <Evolution evolution={evolution} />
+          {evolution && <Evolution evolution={evolution} id={evolutionChainId} />}
         </div>
       </section>
     </div>
@@ -69,12 +74,10 @@ const DetailPokemon = ({ pokemon, evolution }) => {
 export async function getServerSideProps({ params }) {
   const { name } = params;
   const pokemon = await getDetailPokemon(name);
-  // const evolution = await getEvolutionPokemon(name);
 
   return {
     props: {
-      pokemon,
-      // evolution
+      pokemon
     }
   };
 }

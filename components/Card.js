@@ -31,7 +31,7 @@ const Card = ({ item }) => {
       className="card cursor-pointer relative w-full text-white rounded-lg p-3 overflow-hidden"
       style={{backgroundColor: bgColorType }}
       onClick={() => goToDetail(item.name)}>
-      <div className="absolute top-0 right-0 p-3 text-gray-800 font-medium italic">#{addPad(number)}</div>
+      <div className="absolute top-0 right-0 p-3 text-sm font-bold italic">#{addPad(number)}</div>
       <div>
         <div className="font-bold pb-3 text-lg capitalize">{item.name}</div>
         {types.map((type, index) => (
