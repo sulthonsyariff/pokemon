@@ -1,4 +1,4 @@
-import { nameStats } from '../../utils/index';
+import { nameStats, calcProgress } from '../../utils/index';
 import Progress from './Progress';
 
 const BaseStats = ({ stats }) => {
@@ -11,7 +11,10 @@ const BaseStats = ({ stats }) => {
             <div className="flex flex-col sm:flex-row sm:flex-nowrap gap-0 sm:gap-3 mb-3 sm:mb-0 items-center" key={index}>
               <div className="w-full sm:w-56 text-sm font-medium text-gray-500">{nameStats(data.stat.name)}</div>
               {/* number and progress */}
-              <Progress percentage={data.base_stat} />
+              <Progress
+                number={data.base_stat} 
+                progress={calcProgress(data.stat.name, data.base_stat)}
+              />
             </div>
           ))}
         </div>
