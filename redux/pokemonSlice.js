@@ -3,11 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 export const pokemonSlice = createSlice({
   name: 'pokemon',
   initialState: {
-    favorite: [
-      {
-        name: 'bulbasaur'
-      }
-    ],
+    favorite: [],
   },
   reducers: {
     ADD_FAVORITE: (state, action) => {
