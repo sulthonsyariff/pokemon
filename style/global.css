@@ -5,6 +5,10 @@ body {
   background: #181818;;
 }
 
+input:focus-visible {
+  outline: none;
+}
+
 .card {
   min-height: 136px;
 }
@@ -46,12 +50,12 @@ body {
 }
 
 .pagination .active .page-link {
-  background-color: #0d6efd !important;
+  @apply bg-red-600 !important;
   color: white;
 }
 
 .loader {
-	border-top-color: #3498db;
+  @apply border-red-600;
 	-webkit-animation: spinner 1.5s linear infinite;
 	animation: spinner 1.5s linear infinite;
 }
@@ -72,4 +76,16 @@ body {
 	100% {
 		transform: rotate(360deg);
 	}
+}
+
+#nprogress .bar {
+  @apply bg-red-600 !important;
+}
+
+#nprogress .spinner-icon {
+  @apply border-red-600;
+}
+
+.wrap-empty-favorite {
+  height: calc(100vh - 96px);
 }

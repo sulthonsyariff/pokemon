@@ -3,14 +3,18 @@ import { createSlice } from '@reduxjs/toolkit';
 export const pokemonSlice = createSlice({
   name: 'pokemon',
   initialState: {
-    favorite: []
+    favorite: [
+      {
+        name: 'bulbasaur'
+      }
+    ],
   },
   reducers: {
     ADD_FAVORITE: (state, action) => {
       state.favorite = [...state.favorite, action.payload];
     },
     DELETE_FAVORITE: (state, action) => {
-      let result = state.favorite.filter((favorite) => favorite.id != action.payload.id);
+      let result = state.favorite.filter((favorite) => favorite.name != action.payload.name);
       state.favorite = result;
     },
   },

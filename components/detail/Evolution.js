@@ -1,5 +1,7 @@
 import { Fragment, useState, useEffect } from "react";
 import getPokemonIdBySpecies from "../../utils/getPokemonIdBySpecies";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faLongArrowAltRight } from '@fortawesome/free-solid-svg-icons'
 
 const Evolution = ({ evolution }) => {
   const [evoChain, setEvoChain] = useState([]);
@@ -56,8 +58,8 @@ const Evolution = ({ evolution }) => {
                 </div>
                 {index + 1 < evoChain.length && (
                   <div className="my-4 sm:my-0">
-                    <div className="transform rotate-90 sm:rotate-0">
-                      icon
+                    <div className="transform -rotate-90 sm:rotate-0">
+                      <FontAwesomeIcon icon={faLongArrowAltRight} size="lg" />
                     </div>
                   </div>
                 )}

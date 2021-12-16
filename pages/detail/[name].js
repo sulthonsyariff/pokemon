@@ -1,21 +1,58 @@
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import { getDetailPokemon, getSpeciesPokemon, getEvolutionPokemon } from '../../services/data_api';
 import getColorByPokemonType from '../../utils/getColorByPokemonType';
 import { addPad } from '../../utils/index';
 import BaseStats from '../../components/detail/BaseStats';
 import About from '../../components/detail/About';
 import Evolution from '../../components/detail/Evolution';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHeart, faArrowLeft } from '@fortawesome/free-solid-svg-icons'
+import { useSelector, useDispatch } from 'react-redux';
+
+import {
+  selectfavorite,
+  ADD_FAVORITE,
+  DELETE_FAVORITE
+} from '../../redux/pokemonSlice';
 
 const DetailPokemon = ({ pokemon, speciesPokemon }) => {
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const listFavorite = useSelector(selectfavorite);
   const [evolution, setEvolution] = useState(null);
   const [bgColorType, setBgColorType] = useState('');
+  const [isFavorite, setIsFavorite] = useState(false);
 
   const fetchEvolution = async () => {
     const res = await getEvolutionPokemon(speciesPokemon.evolution_chain.url);
     setEvolution(res);
   }
 
+  const checkFavorite = () => {
+    let result = listFavorite.filter(data => data.name === pokemon.name);
+    if (result.length < 1) {
+      setIsFavorite(false);
+    } else {
+      setIsFavorite(true);
+    }
+
+    return result;
+  }
+
+  const addToFavorite = () => {
+    let favoriteLength = listFavorite.filter(data => data.name === pokemon.name);
+
+    if (favoriteLength.length < 1) {
+      dispatch(ADD_FAVORITE({ name: pokemon.name }));
+    } else {
+      dispatch(DELETE_FAVORITE({ name: pokemon.name }));
+    }
+    setIsFavorite(!isFavorite);
+  }
+
   useEffect(() => {
+    checkFavorite();
     fetchEvolution();
     setBgColorType(getColorByPokemonType(pokemon.types[0].type.name));
   }, []);
@@ -23,12 +60,17 @@ const DetailPokemon = ({ pokemon, speciesPokemon }) => {
   return (
     <div className="mx-auto min-h-screen pb-4 sm:pb-8 lg:pb-10 xl:pb-12" style={{backgroundColor: bgColorType}}>
       {/* header */}
-      <header className="p-4 pb-20 text-center relative z-10">
-        {/* <div>Back</div> */}
-        <div>
-          <div className="text-white text-lg font-medium">#{addPad(pokemon.id)}</div>
-          <h1 className="text-4xl font-bold capitalize text-white">{pokemon.name}</h1>
+      <div className="py-4 pb-20 text-center relative z-10">
+        <div className='relative w-11/12 mx-auto pb-1 flex justify-between items-center'>
+          <FontAwesomeIcon icon={faArrowLeft} size='lg' color='white' onClick={() => router.back()} />
+          <div className="text-lg font-medium text-white">#{addPad(pokemon.id)}</div>
+          <div>
+            <div className={isFavorite ? 'text-red-600' : 'text-white'}>
+              <FontAwesomeIcon icon={faHeart} size='lg' onClick={addToFavorite} />
+            </div>
+          </div>
         </div>
+        <h1 className="text-4xl font-bold capitalize text-white pb-1">{pokemon.name}</h1>
         {/* types */}
         <div className='flex justify-center gap-2 mt-3 pb-5'>
           {pokemon.types.map((type, index) => (
@@ -45,7 +87,7 @@ const DetailPokemon = ({ pokemon, speciesPokemon }) => {
             <img className='relative w-full mx-auto z-10' src={pokemon.sprites.other['official-artwork'].front_default} alt="pokemon image" />
           </div>
         </div>
-      </header>
+      </div>
       <section>
         <div className='w-11/12 mx-auto -mt-12'>
           <div className='flex flex-col sm:flex-row sm:gap-5'>

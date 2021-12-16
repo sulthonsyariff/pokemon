@@ -7,7 +7,7 @@ import LoadingPage from "../components/atoms/LoadingPage";
 
 const Index = ({ pokemon }) => {
 
-  const totalPages = pokemon.count / 20;
+  const totalPages = Math.ceil(pokemon.count / 20);
   const [pokemonList, setPokemonList] = useState(pokemon);
   const [pageActive, setPageActive] = useState(1);
   const [loading, setLoading] = useState(true);
