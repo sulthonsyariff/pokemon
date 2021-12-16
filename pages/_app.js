@@ -1,11 +1,18 @@
-import 'tailwindcss/tailwind.css';
-import '../style/global.css';
+import NProgress from 'nprogress';
+import 'nprogress/nprogress.css';
+import { Router } from 'next/router';
 import store from '../redux/store';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist';
+import 'tailwindcss/tailwind.css';
+import '../style/global.css';
 
 function MyApp({ Component, pageProps }) {
+  NProgress.configure({ showSpinner: false });
+  Router.events.on('routeChangeStart', () => NProgress.start());
+  Router.events.on('routeChangeComplete', () => NProgress.done());
+  Router.events.on('routeChangeError', () => NProgress.done());
   let persistor = persistStore(store);
 
   return (
