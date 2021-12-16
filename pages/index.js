@@ -1,30 +1,34 @@
 import { useState, useEffect } from "react";
 import { getListPokemon } from '../services/data_api';
-import ReactPaginate from 'react-paginate';
 import List from "../components/List"
 import Header from "../components/Header";
 import LoadingPage from "../components/atoms/LoadingPage";
+import ReactPaginate from 'react-paginate';
 
 const Index = ({ pokemon }) => {
-
   const totalPages = Math.ceil(pokemon.count / 20);
   const [pokemonList, setPokemonList] = useState(pokemon);
   const [pageActive, setPageActive] = useState(1);
   const [loading, setLoading] = useState(true);
 
+  // loading preload
   useEffect(() => {
     setTimeout(() => {
       setLoading(false)
     }, 1500);
   }, []);
 
+  // fetch pagination
   const fetchPagination = async (selected) => {
     await setLoading(true);
+    
     const limit = 20;
     const offset = selected === 1 ? 0 : (selected - 1) * 20;
     const data = await getListPokemon(offset, limit);
+    
     setPageActive(selected);
     setPokemonList(data);
+    
     setTimeout(() => {
       setLoading(false)
     }, 1000);
@@ -35,11 +39,10 @@ const Index = ({ pokemon }) => {
       {loading && <LoadingPage />}
     
       <div className="max-w-6xl mx-auto min-h-screen bg-app-dark p-4">
-        {/* Header */}
-        <Header></Header>
-        {/* list */}
+        {/* header */}
+        <Header />
+        {/* list pokemon */}
         <List pokemon={pokemonList} />
-
         {/* pagination */}
         <div className="flex justify-center mt-5">
           <ReactPaginate
@@ -68,6 +71,7 @@ const Index = ({ pokemon }) => {
   )
 }
 
+// get first 20 list pokemon in server side
 export async function getServerSideProps() {
   const pokemon = await getListPokemon(0);
 

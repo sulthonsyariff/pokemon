@@ -6,6 +6,7 @@ import { faLongArrowAltRight } from '@fortawesome/free-solid-svg-icons'
 const Evolution = ({ evolution }) => {
   const [evoChain, setEvoChain] = useState([]);
 
+  // convert data evolution chain to array
   const setDataEvolution = () => {
     let result = [];
     let evoData = evolution.chain;
@@ -26,15 +27,19 @@ const Evolution = ({ evolution }) => {
     setEvoChain(result);
   }
 
+  // get image for official-artwork by pokemonId
   const getImage = (speciesName) => {
+    // get pokemon id by pokemon/species name
     let pokemonId = getPokemonIdBySpecies(speciesName);
     return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemonId}.png`;
   }
 
+  // split words ex: use-item to use item for evolution triggered name
   const splitWords = (name) => {
     return name.split('-').join(' ');
   }
 
+  // component didmount
   useEffect(() => {
     setDataEvolution();
   }, [])

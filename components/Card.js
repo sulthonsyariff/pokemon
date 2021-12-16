@@ -1,27 +1,31 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { getDetailPokemon } from '../services/data_api';
-import getColorByPokemonType from '../utils/getColorByPokemonType';
 import { addPad } from '../utils/index';
+import getColorByPokemonType from '../utils/getColorByPokemonType';
 
 const Card = ({ item }) => {
   const router = useRouter();
-
   const [types, setTypes] = useState([]);
   const [number, setNumber] = useState('');
   const [bgColorType, setBgColorType] = useState('');
 
+  // get types pokemon
   const getTypes = async (name) => {
     const detail = await getDetailPokemon(name);
     setNumber(detail.id + '');
     setTypes(detail.types);
+
+    // set backgroundColor by pokemon type
     setBgColorType(getColorByPokemonType(detail.types[0].type.name));
   }
 
+  // go to detail pokemon
   const goToDetail = (name) => {
     router.push(`/detail/${name}`);
   }
 
+  // component didmount
   useEffect(() => {
     getTypes(item.name);
   }, [])

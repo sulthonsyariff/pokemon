@@ -1,4 +1,3 @@
-import Head from 'next/head';
 import NProgress from 'nprogress';
 import { Router } from 'next/router';
 import store from '../redux/store';
@@ -19,11 +18,6 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <>
-      <Head>
-        {/* <!-- Fontawesome --> */}
-        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" />
-      </Head>
-
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <Component {...pageProps} />

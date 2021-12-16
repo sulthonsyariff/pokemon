@@ -1,8 +1,8 @@
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
-import Card from '../../components/Card';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
+import Card from '../../components/Card';
 import {
   selectfavorite
 } from '../../redux/pokemonSlice';
@@ -15,8 +15,8 @@ const FavoriteIndex = () => {
     <>
       <div className="max-w-6xl mx-auto min-h-screen p-4">
         <div className='flex items-center'>
-          <FontAwesomeIcon icon={faArrowLeft} size='lg' color='white' onClick={() => router.push('/')} />
-          <h1 className="text-xl sm:text-2xl font-bold text-white pl-5 py-4">You're Favorite Pokémon</h1>
+          <FontAwesomeIcon icon={faArrowLeft} className='cursor-pointer' size='lg' color='white' onClick={() => router.push('/')} />
+          <h1 className="text-xl sm:text-2xl font-bold text-white pl-5 py-4">Your Favorite Pokémon</h1>
         </div>
         <div className="w-full mt-3 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-4">
           {listFavorite.map(data => (
