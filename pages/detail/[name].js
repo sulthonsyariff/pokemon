@@ -12,6 +12,7 @@ const DetailPokemon = ({ pokemon, speciesPokemon }) => {
 
   // fetch evolution chain pokemon
   const fetchEvolution = async () => {
+    if (!speciesPokemon) return
     const res = await getEvolutionPokemon(speciesPokemon.evolution_chain.url);
     setEvolution(res);
   }
@@ -49,10 +50,16 @@ const DetailPokemon = ({ pokemon, speciesPokemon }) => {
 
 export async function getServerSideProps({ params }) {
   const { name } = params;
+  let speciesPokemon;
   // fetch pokemon detail information
   const pokemon = await getDetailPokemon(name);
   // fetch pokemon species for get evolution chain
-  const speciesPokemon = await getSpeciesPokemon(name);
+  // if pokemon have a (-) in the name return null, ex: orbeetle-gmax, etc
+  if (name.indexOf('-') > -1) {
+    speciesPokemon = null
+  } else {
+    speciesPokemon = await getSpeciesPokemon(name);
+  }
 
   return {
     props: {
