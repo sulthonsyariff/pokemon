@@ -54,7 +54,7 @@ const DetailPokemon = ({ pokemon, speciesPokemon }) => {
         image={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png`}
       />
 
-      <div className='mx-auto min-h-screen pb-4 sm:pb-8 lg:pb-10 xl:pb-12'>
+      <div className='mx-auto min-h-screen pb-4 sm:pb-8 lg:pb-10 xl:pb-12 overflow-x-hidden'>
         {/* hero */}
         <Hero pokemon={pokemon} />
         <section>

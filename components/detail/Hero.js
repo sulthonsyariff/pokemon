@@ -56,7 +56,7 @@ const Hero = ({ pokemon }) => {
   }, []);
 
   return (
-    <div className='py-4 pb-32 text-center relative z-10'>
+    <div className='py-4 text-center relative z-10'>
       <div className='relative w-11/12 mx-auto pb-2 flex justify-between items-center'>
         <FontAwesomeIcon
           icon={faArrowLeft}
@@ -96,14 +96,14 @@ const Hero = ({ pokemon }) => {
           </span>
         ))}
       </div>
-      <div className='w-full pt-6'>
-        <div className='w-96 h-96 mx-auto relative'>
+      <div className='w-full pt-6 pb-10'>
+        <div className='w-80 h-80 sm:w-96 sm:h-96 mx-auto relative'>
           <img
             src='/pokemon-bg.png'
             className='absolute pokemon-background-spin'
             alt='pokemon-bg'
           />
-          <div className='w-64 h-64 relative element-center'>
+          <div className='w-60 h-60 sm:w-64 sm:h-64 relative element-center'>
             <img
               src='/pokemon-circle-bg.png'
               className='w-full absolute'
