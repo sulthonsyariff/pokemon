@@ -1,8 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,700;1,500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,700;1,500&display=swap");
 
 body {
-  font-family: 'Poppins', sans-serif;
-  background: #181818;;
+  font-family: "Poppins", sans-serif;
+  background: #09141e;
 }
 
 input:focus-visible {
@@ -15,6 +15,34 @@ input:focus-visible {
 
 .img-container img {
   max-width: 90%;
+}
+
+.element-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.pokemon-background-spin {
+  animation: spin 3s linear infinite;
+}
+
+.about-wrapper {
+  border: 2px solid #62caff;
+  border-left: none;
+  border-radius: 0 130px 130px 0;
+}
+
+.base-status-wrapper {
+  border: 2px solid #62caff;
+  border-right: none;
+  border-radius: 130px 0 0 130px;
+}
+
+.evolution-wrapper {
+  border: 2px solid #62caff;
+  border-radius: 130px;
 }
 
 .pagination {
@@ -56,26 +84,8 @@ input:focus-visible {
 
 .loader {
   @apply border-red-600;
-	-webkit-animation: spinner 1.5s linear infinite;
-	animation: spinner 1.5s linear infinite;
-}
-
-@-webkit-keyframes spinner {
-	0% {
-		-webkit-transform: rotate(0deg);
-	}
-	100% {
-		-webkit-transform: rotate(360deg);
-	}
-}
-
-@keyframes spinner {
-	0% {
-		transform: rotate(0deg);
-	}
-	100% {
-		transform: rotate(360deg);
-	}
+  -webkit-animation: spinner 1.5s linear infinite;
+  animation: spinner 1.5s linear infinite;
 }
 
 #nprogress .bar {
@@ -88,4 +98,33 @@ input:focus-visible {
 
 .wrap-empty-favorite {
   height: calc(100vh - 96px);
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .about-wrapper {
+    border: 2px solid #62caff;
+    @apply p-4;
+    border-radius: 8px;
+  }
+
+  .base-status-wrapper {
+    border: 2px solid #62caff;
+    @apply p-4;
+    border-radius: 8px;
+  }
+
+  .evolution-wrapper {
+    border: 2px solid #62caff;
+    @apply p-4;
+    border-radius: 8px;
+  }
 }
