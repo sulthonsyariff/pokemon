@@ -1,9 +1,11 @@
-import axios from 'axios';
+import axios from "axios";
 
-const rootAPI = 'https://pokeapi.co/api/v2';
+const rootAPI = "https://pokeapi.co/api/v2";
 
-export async function getListPokemon(offset, limit) {
-  const axiosResponse = await axios.get(`${rootAPI}/pokemon?offset=${offset}&limit=${limit}`);
+export async function getAllListPokemon(offset = 0, limit = 1118) {
+  const axiosResponse = await axios.get(
+    `${rootAPI}/pokemon?offset=${offset}&limit=${limit}`
+  );
   const { data } = axiosResponse;
   return data;
 }

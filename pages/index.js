@@ -1,85 +1,91 @@
 import { useState, useEffect } from "react";
-import { getListPokemon } from '../services/data_api';
-import List from "../components/List"
+import { useDispatch, useSelector } from "react-redux";
+import { getAllListPokemon } from "../services/data_api";
 import Header from "../components/Header";
+import List from "../components/List";
 import LoadingPage from "../components/atoms/LoadingPage";
-import ReactPaginate from 'react-paginate';
+import Seo from "../components/atoms/Seo";
+import InfiniteScroll from "react-infinite-scroll-component";
 
-const Index = ({ pokemon }) => {
-  const totalPages = Math.ceil(pokemon.count / 20);
-  const [pokemonList, setPokemonList] = useState(pokemon);
-  const [pageActive, setPageActive] = useState(1);
+import {
+  DISPLAYED_POKEMONS,
+  UPDATE_DISPLAYED_POKEMON,
+  SET_IS_SHOW_LOAD_MORE,
+  IS_SHOW_LOAD_MORE,
+} from "../redux/modules/pokemon";
+
+export async function getServerSideProps() {
+  const { results: allPokemonList } = await getAllListPokemon();
+
+  return {
+    props: {
+      allPokemonList,
+    },
+  };
+}
+
+const Index = ({ allPokemonList }) => {
+  const limitDisplayedPokemon = 20;
+  const dispatch = useDispatch();
+  const displayedPokemons = useSelector(DISPLAYED_POKEMONS);
+  const hasMore = useSelector(IS_SHOW_LOAD_MORE);
+  const [offset, setOffset] = useState(limitDisplayedPokemon);
   const [loading, setLoading] = useState(true);
+
+  const loadMore = async () => {
+    const slicedPokemons = allPokemonList.slice(
+      offset,
+      offset + limitDisplayedPokemon
+    );
+
+    dispatch(
+      UPDATE_DISPLAYED_POKEMON([...displayedPokemons, ...slicedPokemons])
+    );
+
+    setOffset(offset + limitDisplayedPokemon);
+
+    dispatch(SET_IS_SHOW_LOAD_MORE(true));
+  };
 
   // loading preload
   useEffect(() => {
     setTimeout(() => {
-      setLoading(false)
+      setLoading(false);
     }, 1500);
   }, []);
 
-  // fetch pagination
-  const fetchPagination = async (selected) => {
-    await setLoading(true);
-    
-    const limit = 20;
-    const offset = selected === 1 ? 0 : (selected - 1) * 20;
-    const data = await getListPokemon(offset, limit);
-    
-    setPageActive(selected);
-    setPokemonList(data);
-    
-    setTimeout(() => {
-      setLoading(false)
-    }, 1000);
-  }
+  // set initial displayed pokemon
+  useEffect(() => {
+    dispatch(
+      UPDATE_DISPLAYED_POKEMON(allPokemonList.slice(0, limitDisplayedPokemon))
+    );
+    dispatch(SET_IS_SHOW_LOAD_MORE(true));
+  }, [allPokemonList]);
 
   return (
     <>
       {loading && <LoadingPage />}
-    
-      <div className="max-w-6xl mx-auto min-h-screen bg-app-dark p-4">
-        {/* header */}
+      <Seo
+        title='Sulthon Syariff'
+        description='Search information about your favorite Pokémon'
+        image='/pokeball-red.png'
+      />
+      <div className='max-w-6xl mx-auto min-h-screen bg-app-dark p-4 mb-1'>
         <Header />
-        {/* list pokemon */}
-        <List pokemon={pokemonList} />
-        {/* pagination */}
-        <div className="flex justify-center mt-5">
-          <ReactPaginate
-            onPageChange={(event) => fetchPagination(event.selected + 1)}
-            forcePage={pageActive - 1}
-            pageRangeDisplayed={3}
-            pageCount={totalPages}
-            containerClassName="pagination"
-            pageClassName="page-item"
-            pageLinkClassName="page-link"
-            nextLabel="next"
-            nextClassName="page-item"
-            nextLinkClassName="page-link"
-            breakLabel="..."
-            previousLabel="previous"
-            previousClassName="page-item"
-            previousLinkClassName="page-link"
-            breakClassName="page-item"
-            breakLinkClassName="page-link"
-            activeClassName="active"
-            marginPagesDisplayed={3}
-          />
-        </div>
+        <InfiniteScroll
+          pageStart={0}
+          dataLength={displayedPokemons.length}
+          next={loadMore}
+          hasMore={hasMore}
+          loader={
+            <div className='text-center text-white pt-4'>Loading ...</div>
+          }
+        >
+          <List pokemonList={displayedPokemons} />
+        </InfiniteScroll>
       </div>
     </>
-  )
-}
-
-// get first 20 list pokemon in server side
-export async function getServerSideProps() {
-  const pokemon = await getListPokemon(0);
-
-  return {
-    props: {
-      pokemon,
-    },
-  };
-}
+  );
+};
 
 export default Index;
