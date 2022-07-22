@@ -15,14 +15,10 @@ const Header = () => {
   const dispatch = useDispatch();
   const listFavorite = useSelector(LIST_FAVORITE_POKEMON);
   const [search, setSearch] = useState("");
+  const initialPokemonList = constantPokemonData.results.slice(0, 20);
 
   const handleSearchPokemon = event => {
     event.preventDefault();
-    const maxListPokemon = 20;
-    const initialPokemonList = constantPokemonData.results.slice(
-      0,
-      maxListPokemon
-    );
 
     if (!search) {
       dispatch(SET_IS_SHOW_LOAD_MORE(true));
@@ -42,13 +38,22 @@ const Header = () => {
     dispatch(SET_IS_SHOW_LOAD_MORE(false));
   };
 
+  const handleLogoClicked = () => {
+    setSearch("");
+    dispatch(SET_IS_SHOW_LOAD_MORE(true));
+    dispatch(UPDATE_DISPLAYED_POKEMON(initialPokemonList));
+  };
+
   const goToFavorite = () => router.push(`/favorite`);
 
   return (
     <>
       <header className='mb-5'>
         <div className='flex justify-between items-center text-white pb-5'>
-          <div className='flex items-center'>
+          <div
+            className='flex items-center cursor-pointer'
+            onClick={handleLogoClicked}
+          >
             <img
               src='/pokeball-red.png'
               className='pr-3 w-11'
