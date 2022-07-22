@@ -6,7 +6,7 @@ const BaseStats = ({ stats }) => {
     <>
       <div className='w-full sm:w-1/2 mt-4 sm:mt-0 bg-transparent text-white py-4 relative z-20'>
         <h1 className='font-bold text-lg pb-3 sm:text-right'>Base Stats</h1>
-        <div className='base-status-wrapper py-5 rounded'>
+        <div className='base-status-wrapper py-5'>
           <div className='flex flex-col'>
             {stats.map((data, index) => (
               <div

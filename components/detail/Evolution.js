@@ -48,7 +48,7 @@ const Evolution = ({ evolution }) => {
         <h1 className='font-bold text-lg pb-3 sm:text-center'>
           Evolution Chain
         </h1>
-        <div className='p-3 rounded evolution-wrapper'>
+        <div className='p-3 evolution-wrapper'>
           <div className='flex flex-col-reverse sm:flex-row gap-3 justify-around items-center text-center'>
             {evoChain.map((data, index) => (
               <Fragment key={index}>

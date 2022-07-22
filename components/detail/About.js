@@ -5,7 +5,7 @@ const About = ({ height, weight, baseExperience, types }) => {
     <>
       <div className='w-full sm:w-1/2 bg-transparent text-white py-4 relative z-20'>
         <h1 className='font-bold text-lg pb-3'>About</h1>
-        <div className='py-4 grid grid-cols-3 gap-3 rounded about-wrapper'>
+        <div className='py-4 grid grid-cols-3 gap-3 about-wrapper'>
           <div>
             <div className='text-sm font-medium pb-1'>Height</div>
             <div className='font-bold'>{height / 10} m</div>
